@@ -13,7 +13,8 @@ RUN set -xe;\
         tar \
         gnupg2 \
         apt-transport-https \
-        ca-certificates;\
+        ca-certificates \
+        python3-pip;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
     useradd -m github;\
