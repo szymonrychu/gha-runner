@@ -17,7 +17,7 @@ RUN set -xe;\
         python3-pip;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
-    pip3 install ruamel.yaml requests;\
+    pip3 install ruamel.yaml requests ansible;\
     useradd -m github;\
     usermod -aG sudo github;\
     echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers;\

@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+terminationGracePeriodSeconds: 600
+
 config:
   githubPersonalToken: ""
   githubOwner: "szymonrychu"

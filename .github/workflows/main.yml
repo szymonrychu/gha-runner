@@ -51,6 +51,12 @@ jobs:
 
           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
+      - name: Lint helm chart
+        run: |
+          set -e
+          
+          helm lint chart/${CHART_NAME}
+
       - name: Update metadata files
         run: |
           set -e
