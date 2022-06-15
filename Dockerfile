@@ -30,6 +30,8 @@ RUN set -xe;\
     curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash;\
     curl -s https://api.github.com/repos/roboll/helmfile/releases/latest |  jq -r '.assets[] | .browser_download_url' | grep 'linux_amd64' | xargs wget -qO /usr/local/bin/helmfile;\
     chmod a+x /usr/local/bin/helmfile;\
+    wget -qO /usr/local/bin/terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.37.4/terragrunt_linux_amd64;\
+    chmod a+x /usr/local/bin/terragrunt;\
     wget -qO /tmp/terraform.zip https://releases.hashicorp.com/terraform/1.2.2/terraform_1.2.2_linux_amd64.zip;\
     unzip /tmp/terraform.zip;\
     rm /tmp/terraform.zip;\
