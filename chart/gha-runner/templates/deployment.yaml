@@ -43,11 +43,11 @@ spec:
               gpg --import /secrets/private.rsa
               cp -Rf /home/github/.gnupg /home/github-new/.gnupg
 
-              mkdir -p /home/code-new/.ssh
+              mkdir -p /home/github-new/.ssh
               cp -Rf /secrets/id_rsa /home/github-new/.ssh/id_rsa
               cp /secrets/id_rsa.pub /home/github-new/.ssh/id_rsa.pub
               cp /secrets/known_hosts /home/github-new/.ssh/known_hosts
-              chmod 0600 /home/code-new/.ssh/id_rsa
+              chmod 0600 /home/github-new/.ssh/id_rsa
           volumeMounts:
             - name: runtime-secrets
               mountPath: "/secrets"
