@@ -28,6 +28,34 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      initContainers:
+        - name: {{ .Chart.Name }}-init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command:
+            - bash
+          args:
+            - -cex
+            - |
+              cp -Rf /home/github/* /home/github-new/
+
+              gpg --import /secrets/private.rsa
+              cp -Rf /home/github/.gnupg /home/github-new/.gnupg
+
+              mkdir -p /home/code-new/.ssh
+              cp -Rf /secrets/id_rsa /home/github-new/.ssh/id_rsa
+              cp /secrets/id_rsa.pub /home/github-new/.ssh/id_rsa.pub
+              cp /secrets/known_hosts /home/github-new/.ssh/known_hosts
+              chmod 0600 /home/code-new/.ssh/id_rsa
+          volumeMounts:
+            - name: runtime-secrets
+              mountPath: "/secrets"
+              readOnly: true
+            - mountPath: /home/github-new
+              name: shared-data
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -52,6 +80,9 @@ spec:
                   key: github-personal-token
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /home/github
+              name: shared-data
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -64,3 +95,10 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+        - name: runtime-secrets
+          secret:
+            secretName: {{ include "gha-runner.fullname" . }}-runtime-secrets
+

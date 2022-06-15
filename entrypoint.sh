@@ -15,7 +15,13 @@ remove() {
     ./config.sh remove --token "${RUNNER_TOKEN}"
 }
 
-trap 'remove; exit 130' INT
+removeAndWait(){
+    sleep 600
+    remove
+}
+
+
+trap 'removeAndWait; exit 130' INT
 trap 'remove; exit 143' TERM
 ./run.sh "$*" &
 wait $!
