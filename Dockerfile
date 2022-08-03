@@ -2,7 +2,8 @@ FROM debian:bullseye-slim
 ARG RUNNER_VERSION="2.293.0"
 
 RUN set -xe;\
-    apt-get update;\
+    apt-get update; \
+    apt-get upgrade -y;\
     apt-get install -y \
         curl \
         wget \
