@@ -97,6 +97,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      dnsPolicy: Default
       volumes:
         - name: shared-data
           emptyDir: {}
